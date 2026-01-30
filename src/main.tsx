@@ -1,6 +1,19 @@
 import { createRoot } from "react-dom/client";
 import "./index.css";
+import clsx from "clsx/lite";
+import { Editor } from "./editor/Editor";
 
-createRoot(document.getElementById("root")!).render(
-  <h1 className="bg-black text-white">Hello, React!</h1>,
-);
+const App = () => {
+  return (
+    <div
+      className={clsx(
+        "min-h-screen bg-bg-light px-4 py-8",
+        "font-sans text-sm text-text",
+      )}
+    >
+      <Editor />
+    </div>
+  );
+};
+
+createRoot(document.getElementById("root")!).render(<App />);
