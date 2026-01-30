@@ -18,4 +18,5 @@
   "typescript.tsdk": "node_modules/typescript/lib",
 
   /* Extension specific */
+  "tailwindCSS.classFunctions": ["clsx"]
 }
