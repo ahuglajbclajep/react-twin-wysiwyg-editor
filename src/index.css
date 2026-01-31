@@ -7,4 +7,5 @@
   --color-text-muted: var(--color-gray-500);
   --color-text-strong: var(--color-gray-900);
   --color-border: var(--color-gray-200);
+  --color-border-light: var(--color-gray-100);
 }

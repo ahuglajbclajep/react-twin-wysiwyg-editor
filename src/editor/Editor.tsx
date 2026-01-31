@@ -1,8 +1,10 @@
-import { Document } from "../editor-node/Document";
+import clsx from "clsx/lite";
 import { EditorContent, useEditor } from "@tiptap/react";
+
+import { Document } from "../editor-node/Document";
 import { Paragraph } from "../editor-node/Paragraph";
 import { Text } from "../editor-node/Text";
-import clsx from "clsx/lite";
+import { BlockSideMenu } from "./BlockSideMenu";
 
 export const Editor = () => {
   const editor = useEditor({
@@ -10,7 +12,12 @@ export const Editor = () => {
     editorProps: { attributes: { class: editorStyle } },
   });
 
-  return <EditorContent editor={editor} className="contents" />;
+  return (
+    <>
+      <EditorContent editor={editor} className="contents" />
+      <BlockSideMenu editor={editor} />
+    </>
+  );
 };
 
 const editorStyle = clsx("pl-[40px] focus:outline-none");
