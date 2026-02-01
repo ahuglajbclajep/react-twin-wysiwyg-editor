@@ -67,9 +67,11 @@ export const BlockSideMenu = ({ editor }: Props) => {
       return;
     }
 
+    editor.on("focus", onSelectionUpdate);
     editor.on("selectionUpdate", onSelectionUpdate);
     editor.on("blur", onBlur);
     return () => {
+      editor.on("focus", onSelectionUpdate);
       editor.off("selectionUpdate", onSelectionUpdate);
       editor.off("blur", onBlur);
     };
