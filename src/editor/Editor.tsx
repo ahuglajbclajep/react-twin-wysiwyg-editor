@@ -20,4 +20,4 @@ export const Editor = () => {
   );
 };
 
-const editorStyle = clsx("pl-[40px] focus:outline-none");
+const editorStyle = clsx("pl-[50px] focus:outline-none");

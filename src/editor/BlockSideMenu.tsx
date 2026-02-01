@@ -17,6 +17,8 @@ type Position = {
 
 export const BlockSideMenu = ({ editor }: Props) => {
   const [position, setPosition] = useState<Position>(null);
+  const currentNodeDom = useRef<Element>(null);
+
   const [isShowMenu, _, toFalse, toggle] = useBooleanState();
 
   const onSelectionUpdate = useCallback(
@@ -31,10 +33,11 @@ export const BlockSideMenu = ({ editor }: Props) => {
         return;
       }
 
+      currentNodeDom.current = nodeDOM;
       const { top, left } = nodeDOM.getBoundingClientRect();
       setPosition({
         top: top + window.scrollY,
-        left: left - 40,
+        left: left - 50,
       });
     },
     [],
@@ -53,6 +56,7 @@ export const BlockSideMenu = ({ editor }: Props) => {
       }
 
       toFalse();
+      currentNodeDom.current = null;
       setPosition(null);
     },
     [toFalse],
@@ -71,6 +75,19 @@ export const BlockSideMenu = ({ editor }: Props) => {
     };
   }, [editor, onBlur, onSelectionUpdate]);
 
+  // 選択中のブロックに対して .selected-block を付与する
+  const prevNodeDom = useRef<Element>(null);
+  useEffect(() => {
+    if (!position) {
+      prevNodeDom.current?.classList.remove("selected-block");
+      return;
+    }
+
+    prevNodeDom.current?.classList.remove("selected-block");
+    currentNodeDom.current?.classList.add("selected-block");
+    prevNodeDom.current = currentNodeDom.current;
+  }, [position]);
+
   if (!position) {
     return null;
   }
@@ -87,7 +104,7 @@ export const BlockSideMenu = ({ editor }: Props) => {
       <button
         className={clsx(
           "flex size-8 cursor-pointer items-center justify-center",
-          "rounded-full bg-bg hover:bg-bg-light focus:outline-none",
+          "rounded-full border border-border bg-bg focus:outline-none",
         )}
         onClick={toggle}
       >
