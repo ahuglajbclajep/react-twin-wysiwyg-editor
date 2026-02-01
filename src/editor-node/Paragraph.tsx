@@ -34,7 +34,10 @@ export const Paragraph = Node.create({
   },
 
   addNodeView() {
-    return ReactNodeViewRenderer(WrappedParagraph);
+    return ReactNodeViewRenderer(WrappedParagraph, {
+      // NodeViewContent を span で作らせるための設定
+      contentDOMElementTag: "span",
+    });
   },
 });
 
@@ -42,7 +45,8 @@ const WrappedParagraph = () => {
   return (
     <NodeViewWrapper>
       <ParagraphComponent>
-        <NodeViewContent />
+        {/* @ts-expect-error */}
+        <NodeViewContent as="span" />
       </ParagraphComponent>
     </NodeViewWrapper>
   );
