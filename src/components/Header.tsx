@@ -7,7 +7,7 @@ export const Header = () => {
   return (
     <header
       className={clsx(
-        "sticky top-0 z-10",
+        "sticky top-0 z-10 text-sm",
         "flex items-center justify-between gap-4",
         "border-b border-border bg-bg p-4",
       )}

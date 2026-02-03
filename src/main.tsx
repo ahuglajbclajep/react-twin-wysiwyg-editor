@@ -8,7 +8,7 @@ const App = () => {
   return (
     <div
       className={clsx(
-        "min-h-screen bg-bg font-sans text-sm text-text",
+        "min-h-screen bg-bg font-sans text-base text-text",
         "flex flex-col",
       )}
     >

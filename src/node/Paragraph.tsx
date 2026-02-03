@@ -3,5 +3,5 @@ type Props = {
 };
 
 export const Paragraph = ({ children }: Props) => {
-  return <p className="break-all text-base my-4">{children}</p>;
+  return <p className="my-4 break-all">{children}</p>;
 };
