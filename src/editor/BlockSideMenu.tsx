@@ -1,6 +1,5 @@
-import { useState, useEffect, useCallback, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 import clsx from "clsx/lite";
-import type { EditorEvents } from "@tiptap/core";
 import { PlusIcon } from "@primer/octicons-react";
 
 import type { EditorLike } from "./types";
@@ -21,8 +20,13 @@ export const BlockSideMenu = ({ editor }: Props) => {
 
   const [isShowMenu, _, toFalse, toggle] = useBooleanState();
 
-  const onSelectionUpdate = useCallback(
-    ({ editor }: EditorEvents["selectionUpdate"]) => {
+  // メニューの表示位置を計算する
+  useEffect(() => {
+    if (!editor) {
+      return;
+    }
+
+    const onSelectionUpdate = () => {
       // カーソルがある doc 直下の Node を取得
       const $anchor = editor.state.selection.$anchor;
       const blockNodePos = $anchor.before(1);
@@ -39,43 +43,15 @@ export const BlockSideMenu = ({ editor }: Props) => {
         top: top + window.scrollY,
         left: left - 50,
       });
-    },
-    [],
-  );
-
-  const menuRef = useRef<HTMLDivElement>(null);
-  const onBlur = useCallback(
-    ({ event: e }: EditorEvents["blur"]) => {
-      // メニューがクリックされたときは、何もしない
-      if (
-        menuRef.current &&
-        e.relatedTarget &&
-        menuRef.current.contains(e.relatedTarget as Node)
-      ) {
-        return;
-      }
-
-      toFalse();
-      currentNodeDom.current = null;
-      setPosition(null);
-    },
-    [toFalse],
-  );
-
-  useEffect(() => {
-    if (!editor) {
-      return;
-    }
+    };
 
     editor.on("focus", onSelectionUpdate);
     editor.on("selectionUpdate", onSelectionUpdate);
-    editor.on("blur", onBlur);
     return () => {
       editor.on("focus", onSelectionUpdate);
       editor.off("selectionUpdate", onSelectionUpdate);
-      editor.off("blur", onBlur);
     };
-  }, [editor, onBlur, onSelectionUpdate]);
+  }, [editor]);
 
   // 選択中のブロックに対して .selected-block を付与する
   const prevNodeDom = useRef<Element>(null);
@@ -89,6 +65,33 @@ export const BlockSideMenu = ({ editor }: Props) => {
     currentNodeDom.current?.classList.add("selected-block");
     prevNodeDom.current = currentNodeDom.current;
   }, [position]);
+
+  // メニュー外がクリックされたらメニューを閉じる
+  const menuRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    if (!isShowMenu) {
+      return;
+    }
+
+    const handleClickOutside = (event: MouseEvent) => {
+      // メニュー自身とエディタがクリックされたときは、何もしない
+      if (menuRef.current && menuRef.current.contains(event.target as Node)) {
+        return;
+      }
+      if (editor && editor.view.dom.contains(event.target as Node)) {
+        return;
+      }
+
+      toFalse();
+      currentNodeDom.current = null;
+      setPosition(null);
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [editor, isShowMenu, toFalse]);
 
   if (!position) {
     return null;
