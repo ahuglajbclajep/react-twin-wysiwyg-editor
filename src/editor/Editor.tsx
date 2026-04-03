@@ -1,4 +1,3 @@
-import clsx from "clsx/lite";
 import { EditorContent, useEditor } from "@tiptap/react";
 
 import { Document } from "../editor-node/Document";
@@ -9,15 +8,13 @@ import { BlockSideMenu } from "./BlockSideMenu";
 export const Editor = () => {
   const editor = useEditor({
     extensions: [Document, Paragraph, Text],
-    editorProps: { attributes: { class: editorStyle } },
+    editorProps: { attributes: { class: "focus:outline-none" } },
   });
 
   return (
-    <>
+    <div className="relative flex flex-1 pl-[50px]">
       <EditorContent editor={editor} className="contents" />
       <BlockSideMenu editor={editor} />
-    </>
+    </div>
   );
 };
-
-const editorStyle = clsx("pl-[50px] focus:outline-none");
