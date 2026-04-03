@@ -9,16 +9,18 @@ type Props = {
   editor: EditorLike;
 };
 
-type Position = {
-  top: number;
-  left: number;
-} | null;
-
 export const BlockSideMenu = ({ editor }: Props) => {
-  const [position, setPosition] = useState<Position>(null);
-  const currentNodeDom = useRef<Element>(null);
-
   const [isShowMenu, _, toFalse, toggle] = useBooleanState();
+  const [positionTop, setPositionTop] = useState(0);
+
+  // 選択中のブロックに対して .selected-block を付与する
+  const currentNodeDom = useRef<Element>(null);
+  const prevNodeDom = useRef<Element>(null);
+  useEffect(() => {
+    prevNodeDom.current?.classList.remove("selected-block");
+    currentNodeDom.current?.classList.add("selected-block");
+    prevNodeDom.current = currentNodeDom.current;
+  }, [positionTop]);
 
   // メニューの表示位置を計算する
   useEffect(() => {
@@ -38,33 +40,20 @@ export const BlockSideMenu = ({ editor }: Props) => {
       }
 
       currentNodeDom.current = nodeDOM;
-      const { top, left } = nodeDOM.getBoundingClientRect();
-      setPosition({
-        top: top + window.scrollY,
-        left: left - 50,
-      });
+
+      // エディタ領域からの相対位置を計算する
+      const editorRect = editor.view.dom.getBoundingClientRect();
+      const nodeRect = nodeDOM.getBoundingClientRect();
+      setPositionTop(nodeRect.top - editorRect.top);
     };
 
     editor.on("focus", onSelectionUpdate);
     editor.on("selectionUpdate", onSelectionUpdate);
     return () => {
-      editor.on("focus", onSelectionUpdate);
+      editor.off("focus", onSelectionUpdate);
       editor.off("selectionUpdate", onSelectionUpdate);
     };
   }, [editor]);
-
-  // 選択中のブロックに対して .selected-block を付与する
-  const prevNodeDom = useRef<Element>(null);
-  useEffect(() => {
-    if (!position) {
-      prevNodeDom.current?.classList.remove("selected-block");
-      return;
-    }
-
-    prevNodeDom.current?.classList.remove("selected-block");
-    currentNodeDom.current?.classList.add("selected-block");
-    prevNodeDom.current = currentNodeDom.current;
-  }, [position]);
 
   // メニュー外がクリックされたらメニューを閉じる
   const menuRef = useRef<HTMLDivElement>(null);
@@ -74,17 +63,13 @@ export const BlockSideMenu = ({ editor }: Props) => {
     }
 
     const handleClickOutside = (event: MouseEvent) => {
-      // メニュー自身とエディタがクリックされたときは、何もしない
+      // メニュー自身がクリックされたときは、何もしない
       if (menuRef.current && menuRef.current.contains(event.target as Node)) {
-        return;
-      }
-      if (editor && editor.view.dom.contains(event.target as Node)) {
         return;
       }
 
       toFalse();
       currentNodeDom.current = null;
-      setPosition(null);
     };
 
     document.addEventListener("mousedown", handleClickOutside);
@@ -93,19 +78,8 @@ export const BlockSideMenu = ({ editor }: Props) => {
     };
   }, [editor, isShowMenu, toFalse]);
 
-  if (!position) {
-    return null;
-  }
-
   return (
-    <div
-      className="absolute"
-      style={{
-        top: position.top,
-        left: position.left,
-      }}
-      ref={menuRef}
-    >
+    <div className="absolute left-0" style={{ top: positionTop }} ref={menuRef}>
       <button
         className={clsx(
           "flex size-8 cursor-pointer items-center justify-center",
