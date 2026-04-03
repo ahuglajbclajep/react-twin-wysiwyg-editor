@@ -29,22 +29,25 @@ export const BlockSideMenu = ({ editor }: Props) => {
     }
 
     const onSelectionUpdate = () => {
-      // カーソルがある doc 直下の Node を取得
-      const $anchor = editor.state.selection.$anchor;
-      const blockNodePos = $anchor.before(1);
+      // React のレンダリングが終わってから getBoundingClientRect() をしないとチラつく
+      requestAnimationFrame(() => {
+        // カーソルがある doc 直下の Node を取得
+        const $anchor = editor.state.selection.$anchor;
+        const blockNodePos = $anchor.before(1);
 
-      // その DOM 要素を取得
-      const nodeDOM = editor.view.nodeDOM(blockNodePos);
-      if (!(nodeDOM instanceof Element)) {
-        return;
-      }
+        // その DOM 要素を取得
+        const nodeDOM = editor.view.nodeDOM(blockNodePos);
+        if (!(nodeDOM instanceof Element)) {
+          return;
+        }
 
-      currentNodeDom.current = nodeDOM;
+        currentNodeDom.current = nodeDOM;
 
-      // エディタ領域からの相対位置を計算する
-      const editorRect = editor.view.dom.getBoundingClientRect();
-      const nodeRect = nodeDOM.getBoundingClientRect();
-      setPositionTop(nodeRect.top - editorRect.top);
+        // エディタ領域からの相対位置を計算する
+        const editorRect = editor.view.dom.getBoundingClientRect();
+        const nodeRect = nodeDOM.getBoundingClientRect();
+        setPositionTop(nodeRect.top - editorRect.top);
+      });
     };
 
     editor.on("focus", onSelectionUpdate);
@@ -79,7 +82,15 @@ export const BlockSideMenu = ({ editor }: Props) => {
   }, [editor, isShowMenu, toFalse]);
 
   return (
-    <div className="absolute left-0" style={{ top: positionTop }} ref={menuRef}>
+    <div
+      className={clsx(
+        "absolute left-0",
+        // この領域の背後のテキストもクリックできるようにする
+        "pointer-events-none *:pointer-events-auto",
+      )}
+      style={{ top: positionTop }}
+      ref={menuRef}
+    >
       <button
         className={clsx(
           "flex size-8 cursor-pointer items-center justify-center",
