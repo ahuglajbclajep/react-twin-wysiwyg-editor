@@ -13,7 +13,7 @@ export const Editor = () => {
   });
 
   return (
-    <div className="relative pl-[50px]">
+    <div className="relative overflow-y-hidden pl-[50px]">
       <EditorContent editor={editor} className="contents" />
       <BlockSideMenu editor={editor} />
     </div>

@@ -11,16 +11,10 @@ type Props = {
 
 export const BlockSideMenu = ({ editor }: Props) => {
   const [isShowMenu, _, toFalse, toggle] = useBooleanState();
-  const [positionTop, setPositionTop] = useState(0);
+  const [positionTop, setPositionTop] = useState<number | null>(null);
 
-  // 選択中のブロックに対して .selected-block を付与する
   const currentNodeDom = useRef<Element>(null);
   const prevNodeDom = useRef<Element>(null);
-  useEffect(() => {
-    prevNodeDom.current?.classList.remove("selected-block");
-    currentNodeDom.current?.classList.add("selected-block");
-    prevNodeDom.current = currentNodeDom.current;
-  }, [positionTop]);
 
   // メニューの表示位置を計算する
   useEffect(() => {
@@ -44,8 +38,8 @@ export const BlockSideMenu = ({ editor }: Props) => {
         currentNodeDom.current = nodeDOM;
 
         // エディタ領域からの相対位置を計算する
-        const editorRect = editor.view.dom.getBoundingClientRect();
         const nodeRect = nodeDOM.getBoundingClientRect();
+        const editorRect = editor.view.dom.getBoundingClientRect();
         setPositionTop(nodeRect.top - editorRect.top);
       });
     };
@@ -57,6 +51,13 @@ export const BlockSideMenu = ({ editor }: Props) => {
       editor.off("selectionUpdate", onSelectionUpdate);
     };
   }, [editor]);
+
+  // 選択中のブロックに対して .selected-block を付与する
+  useEffect(() => {
+    prevNodeDom.current?.classList.remove("selected-block");
+    currentNodeDom.current?.classList.add("selected-block");
+    prevNodeDom.current = currentNodeDom.current;
+  }, [positionTop]);
 
   // メニュー外がクリックされたらメニューを閉じる
   const menuRef = useRef<HTMLDivElement>(null);
@@ -80,6 +81,10 @@ export const BlockSideMenu = ({ editor }: Props) => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [editor, isShowMenu, toFalse]);
+
+  if (positionTop === null) {
+    return null;
+  }
 
   return (
     <div
