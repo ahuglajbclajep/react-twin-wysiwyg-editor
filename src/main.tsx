@@ -13,12 +13,8 @@ const App = () => {
       )}
     >
       <Header />
-      <main className="flex flex-1 justify-center px-4 py-8">
-        <div
-          className={clsx("w-full max-w-[720px]", "flex [&_.tiptap]:flex-1")}
-        >
-          <Editor />
-        </div>
+      <main className="mx-auto box-content w-full max-w-[720px] px-4 py-8">
+        <Editor />
       </main>
     </div>
   );

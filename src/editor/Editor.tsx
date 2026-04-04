@@ -8,11 +8,12 @@ import { BlockSideMenu } from "./BlockSideMenu";
 export const Editor = () => {
   const editor = useEditor({
     extensions: [Document, Paragraph, Text],
-    editorProps: { attributes: { class: "focus:outline-none" } },
+    editorProps: { attributes: { class: "min-h-[90vh] focus:outline-none" } },
+    autofocus: true,
   });
 
   return (
-    <div className="relative flex flex-1 pl-[50px]">
+    <div className="relative pl-[50px]">
       <EditorContent editor={editor} className="contents" />
       <BlockSideMenu editor={editor} />
     </div>
