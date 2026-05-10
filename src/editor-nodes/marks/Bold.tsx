@@ -14,23 +14,19 @@ declare module "@tiptap/core" {
 /**
  * Matches bold text via `**` as input.
  */
-export const starInputRegex =
-  /(?:^|\s)(\*\*(?!\s+\*\*)((?:[^*]+))\*\*(?!\s+\*\*))$/;
+const starInputRegex = /(?:^|\s)(\*\*(?!\s+\*\*)((?:[^*]+))\*\*(?!\s+\*\*))$/;
 /**
  * Matches bold text via `**` while pasting.
  */
-export const starPasteRegex =
-  /(?:^|\s)(\*\*(?!\s+\*\*)((?:[^*]+))\*\*(?!\s+\*\*))/g;
+const starPasteRegex = /(?:^|\s)(\*\*(?!\s+\*\*)((?:[^*]+))\*\*(?!\s+\*\*))/g;
 /**
  * Matches bold text via `__` as input.
  */
-export const underscoreInputRegex =
-  /(?:^|\s)(__(?!\s+__)((?:[^_]+))__(?!\s+__))$/;
+const underscoreInputRegex = /(?:^|\s)(__(?!\s+__)((?:[^_]+))__(?!\s+__))$/;
 /**
  * Matches bold text via `__` while pasting.
  */
-export const underscorePasteRegex =
-  /(?:^|\s)(__(?!\s+__)((?:[^_]+))__(?!\s+__))/g;
+const underscorePasteRegex = /(?:^|\s)(__(?!\s+__)((?:[^_]+))__(?!\s+__))/g;
 
 /**
  * @see https://tiptap.dev/docs/editor/extensions/marks/bold
