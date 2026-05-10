@@ -1,9 +1,16 @@
 import type { Icon } from "@primer/octicons-react";
 
-export type LabeledMenuItem = {
+type MenuItemBase = {
   Icon: Icon;
-  label: string;
   onClick: () => void;
   disabled?: boolean;
   isActive?: boolean;
+};
+
+export type LabeledMenuItem = MenuItemBase & {
+  label: string;
+};
+
+export type IconOnlyMenuItem = MenuItemBase & {
+  key: string;
 };
