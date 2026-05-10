@@ -5,7 +5,7 @@ import {
   NodeViewContent,
 } from "@tiptap/react";
 
-import { Component } from "./Component";
+import { Component as ParagraphComponent } from "./Component";
 
 /**
  * @see https://tiptap.dev/api/nodes/document
@@ -37,9 +37,9 @@ const WrappedParagraph = () => {
    */
   return (
     <NodeViewWrapper>
-      <Component>
+      <ParagraphComponent>
         <NodeViewContent />
-      </Component>
+      </ParagraphComponent>
     </NodeViewWrapper>
   );
 };
