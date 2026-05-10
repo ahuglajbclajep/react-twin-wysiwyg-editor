@@ -1,12 +1,14 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useRef, useEffect, useMemo } from "react";
 import clsx from "clsx/lite";
-import { PlusIcon } from "@primer/octicons-react";
+import { PlusIcon, HeadingIcon } from "@primer/octicons-react";
+import type { Editor } from "@tiptap/react";
 
-import type { EditorLike } from "./types";
 import { useBooleanState } from "./useBooleanState";
+import { LabeledMenuList } from "./LabeledMenuList";
+import type { LabeledMenuItem } from "./types";
 
 type Props = {
-  editor: EditorLike;
+  editor: Editor;
 };
 
 export const BlockSideMenu = ({ editor }: Props) => {
@@ -111,26 +113,46 @@ export const BlockSideMenu = ({ editor }: Props) => {
           )}
         />
       </button>
-      {isShowMenu && <BlockSideMenuItems onClose={toFalse} />}
+      {isShowMenu && <BlockSideMenuItems editor={editor} onClose={toFalse} />}
     </div>
   );
 };
 
 type BlockSideMenuItemsProps = {
+  editor: Editor;
   onClose: () => void;
 };
 
-const BlockSideMenuItems = ({ onClose }: BlockSideMenuItemsProps) => {
-  return (
-    <div
-      className={clsx(
-        "mt-1 min-w-[200px] rounded-sm bg-bg shadow-sm shadow-gray-500",
-        "divide-y divide-border-light",
-      )}
-      onClick={onClose}
-    >
-      <button className="flex w-full p-2 hover:bg-bg-light">ここに項目</button>
-      <button className="flex w-full p-2 hover:bg-bg-light">ここに項目</button>
-    </div>
+const BlockSideMenuItems = ({ editor, onClose }: BlockSideMenuItemsProps) => {
+  const menuItems = useMemo<LabeledMenuItem[]>(
+    () => [
+      {
+        Icon: HeadingIcon,
+        label: "Heading 1",
+        onClick: () => {
+          onClose();
+          editor.chain().focus().run();
+        },
+      },
+      {
+        Icon: HeadingIcon,
+        label: "Heading 2",
+        onClick: () => {
+          onClose();
+          editor.chain().focus().run();
+        },
+      },
+      {
+        Icon: HeadingIcon,
+        label: "Heading 3",
+        onClick: () => {
+          onClose();
+          editor.chain().focus().run();
+        },
+      },
+    ],
+    [editor, onClose],
   );
+
+  return <LabeledMenuList menuItems={menuItems} className="mt-1" />;
 };
