@@ -27,7 +27,7 @@ export const LabeledMenuList = ({ menuItems, className }: Props) => (
           disabled={disabled}
         >
           <Icon size={24} className="text-icon" />
-          <span>{label}</span>
+          <span className="text-text-muted">{label}</span>
         </button>
       ),
     )}

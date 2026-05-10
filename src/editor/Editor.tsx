@@ -2,6 +2,7 @@ import { EditorContent, useEditor } from "@tiptap/react";
 
 import { BlockSideMenu } from "./BlockSideMenu";
 import { nodes, marks } from "../editor-nodes/extensions";
+import { InlineBubbleMenu } from "./InlineBubbleMenu";
 
 export const Editor = () => {
   const editor = useEditor({
@@ -18,6 +19,7 @@ export const Editor = () => {
     <div className="relative overflow-y-hidden pl-[50px]">
       <EditorContent editor={editor} className="contents" />
       <BlockSideMenu editor={editor} />
+      <InlineBubbleMenu editor={editor} />
     </div>
   );
 };
