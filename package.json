@@ -12,9 +12,9 @@
   },
   "dependencies": {
     "@primer/octicons-react": "^19.21.2",
-    "@tiptap/core": "3.17.1",
-    "@tiptap/pm": "3.17.1",
-    "@tiptap/react": "3.17.1",
+    "@tiptap/core": "3.23.1",
+    "@tiptap/pm": "3.23.1",
+    "@tiptap/react": "3.23.1",
     "clsx": "^2.1.1",
     "react": "^19.2.4",
     "react-dom": "^19.2.4"
@@ -30,9 +30,5 @@
     "tailwindcss": "^4.1.18",
     "typescript": "^5.9.3",
     "vite": "^7.3.1"
-  },
-  "overrides": {
-    "@tiptap/extension-floating-menu": "3.17.1",
-    "@tiptap/extension-bubble-menu": "3.17.1"
   }
 }
