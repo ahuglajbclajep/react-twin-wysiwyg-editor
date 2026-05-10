@@ -1,7 +1,7 @@
 import { EditorContent, useEditor } from "@tiptap/react";
 
 import { BlockSideMenu } from "./BlockSideMenu";
-import { nodes, marks } from "../editor-node/extensions";
+import { nodes, marks } from "../editor-nodes/extensions";
 
 export const Editor = () => {
   const editor = useEditor({
