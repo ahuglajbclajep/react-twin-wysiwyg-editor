@@ -3,7 +3,7 @@ import clsx from "clsx/lite";
 import { PlusIcon, HeadingIcon } from "@primer/octicons-react";
 import type { Editor } from "@tiptap/react";
 
-import { useBooleanState } from "./useBooleanState";
+import { useBooleanState } from "../components/useBooleanState";
 import { LabeledMenuList } from "./LabeledMenuList";
 import type { LabeledMenuItem } from "./types";
 

@@ -1,13 +1,11 @@
 import { EditorContent, useEditor } from "@tiptap/react";
 
-import { Document } from "../editor-node/Document";
-import { Paragraph } from "../editor-node/Paragraph";
-import { Text } from "../editor-node/Text";
 import { BlockSideMenu } from "./BlockSideMenu";
+import { nodes, marks } from "../editor-node/extensions";
 
 export const Editor = () => {
   const editor = useEditor({
-    extensions: [Document, Paragraph, Text],
+    extensions: [...nodes, ...marks],
     editorProps: { attributes: { class: "min-h-[90vh] focus:outline-none" } },
     autofocus: true,
   });
