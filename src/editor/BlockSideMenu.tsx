@@ -4,6 +4,7 @@ import { PlusIcon, HeadingIcon } from "@primer/octicons-react";
 import type { Editor } from "@tiptap/react";
 
 import { useBooleanState } from "../components/useBooleanState";
+import { IconButton } from "../components/IconButton";
 import { LabeledMenuList } from "./LabeledMenuList";
 import type { LabeledMenuItem } from "./types";
 
@@ -98,21 +99,16 @@ export const BlockSideMenu = ({ editor }: Props) => {
       style={{ top: positionTop }}
       ref={menuRef}
     >
-      <button
+      <IconButton
+        icon={PlusIcon}
+        size={24}
         className={clsx(
-          "flex size-8 cursor-pointer items-center justify-center",
-          "rounded-full border border-border bg-bg focus:outline-none",
+          "rounded-full border border-border p-1 focus:outline-none",
+          "text-text-muted transition-transform",
+          isShowMenu && "rotate-45",
         )}
         onClick={toggle}
-      >
-        <PlusIcon
-          size={24}
-          className={clsx(
-            "text-text-muted transition-transform",
-            isShowMenu && "rotate-45",
-          )}
-        />
-      </button>
+      />
       {isShowMenu && <BlockSideMenuItems editor={editor} onClose={toFalse} />}
     </div>
   );

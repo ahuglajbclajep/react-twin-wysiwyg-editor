@@ -16,7 +16,7 @@ export const IconButton = ({
   return (
     <button
       className={clsx(
-        "flex items-center justify-center",
+        "flex cursor-pointer items-center justify-center",
         "bg-bg enabled:hover:bg-bg-light disabled:text-text-muted",
         className,
       )}
