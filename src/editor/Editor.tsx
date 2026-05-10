@@ -12,6 +12,10 @@ export const Editor = () => {
     autofocus: true,
   });
 
+  if (!editor) {
+    return null;
+  }
+
   return (
     <div className="relative overflow-y-hidden pl-[50px]">
       <EditorContent editor={editor} className="contents" />

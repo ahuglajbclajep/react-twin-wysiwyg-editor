@@ -8,6 +8,7 @@
   --color-text-strong: var(--color-gray-900);
   --color-border: var(--color-gray-200);
   --color-border-light: var(--color-gray-100);
+  --color-icon: var(--color-gray-400);
 }
 
 .selected-block {
