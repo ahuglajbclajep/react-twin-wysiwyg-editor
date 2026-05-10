@@ -9,7 +9,7 @@ import { Component } from "./Component";
 
 /**
  * @see https://tiptap.dev/api/nodes/document
- * @see https://github.com/ueberdosis/tiptap/blob/v3.17.1/packages/extension-paragraph/src/paragraph.ts
+ * @see https://github.com/ueberdosis/tiptap/blob/v3.23.1/packages/extension-paragraph/src/paragraph.ts
  */
 export const Paragraph = Node.create({
   name: "paragraph",
