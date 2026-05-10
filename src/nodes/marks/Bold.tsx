@@ -3,5 +3,5 @@ type Props = {
 };
 
 export const Bold = ({ children }: Props) => {
-  return <strong className="font-bold">{children}</strong>;
+  return <strong>{children}</strong>;
 };
